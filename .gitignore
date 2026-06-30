@@ -9,3 +9,6 @@ logs/
 build/
 dist/
 .DS_Store
+
+local_data
+local_outputs/
