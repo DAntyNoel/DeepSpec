@@ -392,6 +392,7 @@ class Qwen3DSparkModel(Qwen3PreTrainedModel):
         target_hidden_states: torch.Tensor,
         loss_mask: torch.Tensor,
         target_last_hidden_states: Optional[torch.Tensor] = None,
+        kernel_options: Optional[dict] = None,
     ) -> DSparkForwardOutput:
         bsz, seq_len = input_ids.shape
         device = input_ids.device
@@ -425,6 +426,7 @@ class Qwen3DSparkModel(Qwen3PreTrainedModel):
             noise_embedding=noise_embedding,
             target_hidden_states=target_hidden_states,
             attention_mask=dspark_attn_mask,
+            kernel_options=kernel_options,
         )
 
         num_blocks = anchor_positions.size(1)
