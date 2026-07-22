@@ -480,12 +480,13 @@ class Qwen3DSparkModel(Qwen3PreTrainedModel):
             [anchor_token_ids.unsqueeze(-1), target_ids[:, :, :-1]],
             dim=-1,
         )
-        draft_logits = self.compute_logits(output_hidden).reshape(
+        base_draft_logits = self.compute_logits(output_hidden).reshape(
             bsz,
             num_blocks,
             self.block_size,
             -1,
         )
+        draft_logits = base_draft_logits
         if self.markov_head is not None:
             draft_logits = self.markov_head.apply_block_logits(
                 draft_logits,
@@ -523,6 +524,10 @@ class Qwen3DSparkModel(Qwen3PreTrainedModel):
             block_keep_mask=block_keep_mask,
             confidence_pred=confidence_pred,
             aligned_target_logits=aligned_target_logits,
+            base_draft_logits=base_draft_logits,
+            draft_hidden_states=output_hidden_4d,
+            anchor_positions=anchor_positions,
+            prev_token_ids=prev_token_ids,
         )
 
 

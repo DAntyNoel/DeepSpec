@@ -38,6 +38,14 @@ class DSparkForwardOutput:
     confidence_pred: Optional[torch.Tensor] = None
     # [batch_size, num_anchors, block_size, vocab_size]
     aligned_target_logits: Optional[torch.Tensor] = None
+    # Parallel-backbone logits before the sequential Markov correction.
+    base_draft_logits: Optional[torch.Tensor] = None
+    # [batch_size, num_anchors, block_size, hidden_size]
+    draft_hidden_states: Optional[torch.Tensor] = None
+    # [batch_size, num_anchors]
+    anchor_positions: Optional[torch.Tensor] = None
+    # Teacher-forced previous-token ids used for the native training path.
+    prev_token_ids: Optional[torch.Tensor] = None
 
 
 class AcceptRatePredictor(nn.Module):
